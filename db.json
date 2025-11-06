@@ -1,0 +1,9 @@
+{
+  "blogs": [
+    {
+      "id": 1,
+      "title": "Chào mừng đến với JSON-Server",
+      "content": "Đây là bài blog đầu tiên của bạn, được lưu trong db.json!"
+    }
+  ]
+}
