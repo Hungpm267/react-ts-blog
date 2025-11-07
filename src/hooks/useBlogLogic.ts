@@ -17,7 +17,7 @@ export function useBlogLogic() {
   const [blogs, setBlog] = useState<Blog[]>([]);
   // const [title, setTitle] = useState("");
   // const [content, setContent] = useState("");
-  const {register, handleSubmit, formState:{errors}, reset} = useForm({resolver: yupResolver(schema)});
+  const {register, handleSubmit, control, formState:{errors}, reset} = useForm({resolver: yupResolver(schema)});
   function handleAddBlog(data: FieldValues): void {
     // e.preventDefault();
     const newblogs = {
@@ -41,6 +41,7 @@ export function useBlogLogic() {
     setBlog,
     register,
     handleSubmit,
+    control,
     errors,
     handleAddBlog,
     handleDeleteBlog,

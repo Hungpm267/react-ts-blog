@@ -27,19 +27,19 @@ import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
+  CardAction,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { Controller } from "react-hook-form";
 
 export function AllBlog() {
   const {
     blogs,
     register,
     handleSubmit,
+    control,
     handleAddBlog,
     errors,
     handleDeleteBlog,
@@ -62,10 +62,18 @@ export function AllBlog() {
             <div className="grid gap-4">
               <div className="grid gap-3">
                 <Label htmlFor="name-1">Title</Label>
-                <Input
+                {/* <Input
                   id="name-1"
                   placeholder="Enter title of blog"
                   {...register("title", { required: true })}
+                /> */}
+                <Controller
+                  name="title"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input placeholder="Enter title of blog" {...field} />
+                  )}
                 />
                 <p>
                   {errors.title && (
@@ -73,6 +81,7 @@ export function AllBlog() {
                   )}
                 </p>
               </div>
+              {/* ========================================== */}
               <div className="grid gap-3">
                 <Label htmlFor="name-1">Description</Label>
                 <Input
@@ -86,6 +95,7 @@ export function AllBlog() {
                   )}
                 </p>
               </div>
+              {/* ========================================== */}
               <div className="grid gap-3">
                 <Label htmlFor="username-1">Content</Label>
                 <Input
@@ -156,12 +166,17 @@ export function AllBlog() {
               <CardTitle>
                 <img src="src/assets/mac.jfif" alt="" />
               </CardTitle>
+              <CardAction>
+                <Button variant="link">Edit</Button>
+              </CardAction>
             </CardHeader>
             <CardContent>
-              <CardTitle className="flex justify-start">{baidang.title}</CardTitle>
+              <CardTitle className="flex justify-start text-2xl font-bold">
+                {baidang.title}
+              </CardTitle>
               <p className="flex justify-start">{baidang.description}</p>
             </CardContent>
-            <CardFooter className="flex flex-row justify-around">
+            <CardFooter className="flex flex-row justify-between ">
               <Button variant="outline" asChild>
                 <Link to={`/blog/${baidang.id}`}>View</Link>
               </Button>{" "}
@@ -173,11 +188,12 @@ export function AllBlog() {
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>
-                      Are you absolutely sure?
+                      Are you absolutely sure delete{" "}
+                      <strong>{baidang.title}</strong>?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       This action cannot be undone. This will permanently delete
-                      your  blog and remove your data from our servers.
+                      your blog and remove your data from our servers.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
