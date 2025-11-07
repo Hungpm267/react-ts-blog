@@ -33,6 +33,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Controller } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAllPosts, createPost } from "@/api/mockBlogApi.ts";
+import type { NewPostPayload } from "@/types/blog.ts";
+import { type Blog } from "@/types/blog.ts";
 
 export function AllBlog() {
   const {
@@ -44,7 +48,19 @@ export function AllBlog() {
     errors,
     handleDeleteBlog,
   } = useBlogs();
-  
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: () =>
+      fetch("https://api.github.com/repos/TanStack/query").then((res) =>
+        res.json()
+      ),
+  });
+
+  if (isPending) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
   return (
     <div>
       <Dialog>
@@ -122,7 +138,7 @@ export function AllBlog() {
       </Dialog>
 
       <div className=" mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogs.map((baidang) => (
+        {data.map((baidang) => (
           //   <li key={baidang.id}>
           //     {baidang.title} - {baidang.content}{" "}
           //     <Button variant="outline" asChild>
