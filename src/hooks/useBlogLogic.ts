@@ -32,6 +32,20 @@ export function useBlogLogic() {
     // setContent("");
     // setTitle("");
   }
+  function handleEditBlog(data: FieldValues): void {
+    // e.preventDefault();
+    const newblogs = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      content: data.content,
+      created_time: data.created_time,
+    };
+    // setBlog([...blogs, newblogs]);
+    reset();
+    // setContent("");
+    // setTitle("");
+  }
   function handleDeleteBlog(id: number) {
     const newListBlog = blogs.filter((baiblog) => baiblog.id != id);
     setBlog(newListBlog);
@@ -44,6 +58,7 @@ export function useBlogLogic() {
     control,
     errors,
     handleAddBlog,
+    handleEditBlog,
     handleDeleteBlog,
   };
 }

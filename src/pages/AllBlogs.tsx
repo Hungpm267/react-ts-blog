@@ -33,10 +33,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Controller } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
-import { fetchAllPosts, createPost } from "@/api/mockBlogApi.ts";
-import type { NewPostPayload } from "@/types/blog.ts";
-import { type Blog } from "@/types/blog.ts";
+import { Textarea } from "@/components/ui/textarea";
 
 export function AllBlog() {
   const {
@@ -47,19 +44,8 @@ export function AllBlog() {
     handleAddBlog,
     errors,
     handleDeleteBlog,
+    handleEditBlog,
   } = useBlogs();
-
-  const { isPending, error, data } = useQuery({
-    queryKey: ["repoData"],
-    queryFn: () =>
-      fetch("https://api.github.com/repos/TanStack/query").then((res) =>
-        res.json()
-      ),
-  });
-
-  if (isPending) return "Loading...";
-
-  if (error) return "An error has occurred: " + error.message;
 
   return (
     <div>
@@ -69,7 +55,7 @@ export function AllBlog() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <form action="submit" onSubmit={handleSubmit(handleAddBlog)}>
-            <DialogHeader>
+            <DialogHeader className="mb-5">
               <DialogTitle>Add new task</DialogTitle>
               <DialogDescription>
                 Let's input your task title and content to create your new task.
@@ -114,7 +100,7 @@ export function AllBlog() {
               {/* ========================================== */}
               <div className="grid gap-3">
                 <Label htmlFor="username-1">Content</Label>
-                <Input
+                <Textarea
                   id="username-1"
                   placeholder="Enter content of blog"
                   {...register("content", { required: true })}
@@ -138,52 +124,86 @@ export function AllBlog() {
       </Dialog>
 
       <div className=" mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {data.map((baidang) => (
-          //   <li key={baidang.id}>
-          //     {baidang.title} - {baidang.content}{" "}
-          //     <Button variant="outline" asChild>
-          //       <Link to={`/blog/${baidang.id}`}>Read</Link>
-          //     </Button>{" "}
-          //     {/* <Button
-          //       variant="destructive"
-          //       onClick={() => handleDeleteBlog(baidang.id)}
-          //     >
-          //       Delete
-          //     </Button> */}
-          //     {/* ====================================== */}
-          //     <AlertDialog>
-          //       <AlertDialogTrigger asChild>
-          //         <Button variant="destructive">Delete</Button>
-          //       </AlertDialogTrigger>
-          //       <AlertDialogContent>
-          //         <AlertDialogHeader>
-          //           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          //           <AlertDialogDescription>
-          //             This action cannot be undone. This will permanently delete
-          //             your account and remove your data from our servers.
-          //           </AlertDialogDescription>
-          //         </AlertDialogHeader>
-          //         <AlertDialogFooter>
-          //           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          //           <AlertDialogAction
-          //             className="border bg-red-600"
-          //             onClick={() => handleDeleteBlog(baidang.id)}
-          //           >
-          //             Delete
-          //           </AlertDialogAction>
-          //         </AlertDialogFooter>
-          //       </AlertDialogContent>
-          //     </AlertDialog>
-
-          //     {/* ====================================== */}
-          //   </li>
+        {blogs.map((baidang) => (
           <Card key={baidang.id}>
             <CardHeader>
               <CardTitle>
                 <img src="src/assets/mac.jfif" alt="" />
               </CardTitle>
               <CardAction>
-                <Button variant="link">Edit</Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="link">Edit</Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <form
+                      action="submit"
+                      onSubmit={handleSubmit(handleEditBlog)}
+                    >
+                      <DialogHeader className="mb-8">
+                        <DialogTitle>
+                          Edit <strong>{baidang.title}</strong>
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="grid gap-4">
+                        <div className="grid gap-3">
+                          <Label htmlFor="name-1">Title</Label>
+                          <Controller
+                            name="title"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                              <Input placeholder={baidang.title} {...field} />
+                            )}
+                          />
+                          <p>
+                            {errors.title && (
+                              <p className="text-red-500">Title is must have</p>
+                            )}
+                          </p>
+                        </div>
+                        {/* ========================================== */}
+                        <div className="grid gap-3">
+                          <Label htmlFor="name-1">Description</Label>
+                          <Input
+                            id="name-1"
+                            placeholder={baidang.description}
+                            {...register("description", { required: true })}
+                          />
+                          <p>
+                            {errors.title && (
+                              <p className="text-red-500">
+                                Description is must have
+                              </p>
+                            )}
+                          </p>
+                        </div>
+                        {/* ========================================== */}
+                        <div className="grid gap-3">
+                          <Label htmlFor="username-1">Content</Label>
+                          <Textarea
+                            id="username-1"
+                            placeholder={baidang.content}
+                            {...register("content", { required: true })}
+                          />
+                          <p>
+                            {errors.content && (
+                              <p className="text-red-500">
+                                Content is must have
+                              </p>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+                        <Button type="submit">Save changes</Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               </CardAction>
             </CardHeader>
             <CardContent>
@@ -196,7 +216,6 @@ export function AllBlog() {
               <Button variant="outline" asChild>
                 <Link to={`/blog/${baidang.id}`}>View</Link>
               </Button>{" "}
-              {/* ====================================== */}
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="destructive">Delete Blog</Button>

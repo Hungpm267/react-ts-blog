@@ -11,8 +11,8 @@ export function ReadBlog() {
     )
   }
   return (
-    <div className="flex flex-col m-8 p-5 bg-gray-100 rounded-2xl">
-      <div className="text-4xl font-extrabold text-gray-900 mb-6">{blog.title}</div>
+    <div className="flex flex-col m-8 p-5 border rounded-2xl">
+      <div className="text-4xl font-extrabold mb-6">{blog.title}</div>
       <p>{blog.content}</p>
     
     </div>

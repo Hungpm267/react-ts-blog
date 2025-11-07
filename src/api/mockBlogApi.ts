@@ -28,7 +28,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 /**
  * API giả: Lấy tất cả bài viết
  */
-export const fetchAllPosts = async (): Promise<Blog[]> => {
+export const fetchAllBlogs = async (): Promise<Blog[]> => {
   console.log("API (Mock): Đang lấy tất cả bài viết...");
   await delay(1000); // Giả lập 1 giây chờ
 
@@ -44,7 +44,7 @@ export const fetchAllPosts = async (): Promise<Blog[]> => {
 /**
  * API giả: Tạo một bài viết mới
  */
-export const createPost = async (newPost: NewBlogPayLoad): Promise<Blog> => {
+export const createBlog = async (newPost: NewBlogPayLoad): Promise<Blog> => {
   console.log("API (Mock): Đang tạo bài viết mới...");
   await delay(500); // Giả lập 0.5 giây chờ
 
