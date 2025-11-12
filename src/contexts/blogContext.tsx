@@ -3,7 +3,7 @@ import { useBlogLogic } from "@/hooks/useBlogLogic";
 
 type TodoContextType = ReturnType<typeof useBlogLogic>;
 
-export const BlogContext = createContext<TodoContextType | undefined>(undefined);
+const BlogContext = createContext<TodoContextType | undefined>(undefined);
 
 // --- BẮT ĐẦU THÊM TỪ ĐÂY ---
 

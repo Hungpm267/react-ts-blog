@@ -20,7 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useBlogs } from "@/contexts/blogContext";
+import { useBlogs } from "@/contexts/BlogContext";
 import { Link } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -45,6 +45,7 @@ export function AllBlog() {
     errors,
     handleDeleteBlog,
     handleEditBlog,
+    reset,
   } = useBlogs();
 
   return (
@@ -116,13 +117,12 @@ export function AllBlog() {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              {/* <Button variant="default">Add</Button> */}
               <Button type="submit">Save changes</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
-
+      {/* ========================================================================================== */}
       <div className=" mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {blogs.map((baidang) => (
           <Card key={baidang.id}>
@@ -133,7 +133,9 @@ export function AllBlog() {
               <CardAction>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="link">Edit</Button>
+                    <Button variant="link" onClick={() => reset(baidang)}>
+                      Edit
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
                     <form
@@ -152,9 +154,7 @@ export function AllBlog() {
                             name="title"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => (
-                              <Input placeholder={baidang.title} {...field} />
-                            )}
+                            render={({ field }) => <Input {...field} />}
                           />
                           <p>
                             {errors.title && (
@@ -167,7 +167,6 @@ export function AllBlog() {
                           <Label htmlFor="name-1">Description</Label>
                           <Input
                             id="name-1"
-                            placeholder={baidang.description}
                             {...register("description", { required: true })}
                           />
                           <p>
@@ -183,7 +182,6 @@ export function AllBlog() {
                           <Label htmlFor="username-1">Content</Label>
                           <Textarea
                             id="username-1"
-                            placeholder={baidang.content}
                             {...register("content", { required: true })}
                           />
                           <p>
@@ -197,9 +195,13 @@ export function AllBlog() {
                       </div>
                       <DialogFooter>
                         <DialogClose asChild>
-                          <Button variant="outline">Cancel</Button>
+                          <Button variant="outline" onClick={() => reset()}>
+                            Cancel
+                          </Button>
                         </DialogClose>
-                        <Button type="submit">Save changes</Button>
+                        <Button type="submit" onClick={() => reset()}>
+                          Save changes
+                        </Button>
                       </DialogFooter>
                     </form>
                   </DialogContent>

@@ -32,20 +32,30 @@ export function useBlogLogic() {
     // setContent("");
     // setTitle("");
   }
-  function handleEditBlog(data: FieldValues): void {
-    // e.preventDefault();
-    const newblogs = {
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      content: data.content,
-      created_time: data.created_time,
-    };
-    // setBlog([...blogs, newblogs]);
-    reset();
-    // setContent("");
-    // setTitle("");
-  }
+function handleEditBlog(data: FieldValues): void {
+  // e.preventDefault();
+
+  // Tạo đối tượng blog đã chỉnh sửa từ dữ liệu form
+  // (Chúng ta giả định data.id và data.created_time được truyền vào
+  // thông qua việc gọi `reset(blog)` trước khi mở Dialog)
+  const newblogs = {
+    id: data.id, // Giữ id cũ
+    title: data.title,
+    description: data.description,
+    content: data.content,
+    created_time: data.created_time, // Giữ thời gian tạo gốc
+  };
+
+  // **** PHẦN SỬA LỖI LOGIC ****
+  // Dùng .map() để tạo một mảng mới
+  // Nếu blog.id khớp với id của blog đang sửa, trả về blog đã sửa
+  // Nếu không, trả về blog cũ
+  setBlog((prevBlogs) =>
+    prevBlogs.map((blog) => (blog.id === newblogs.id ? newblogs : blog))
+  );
+
+  reset(newblogs); // Xóa các trường trong form
+}
   function handleDeleteBlog(id: number) {
     const newListBlog = blogs.filter((baiblog) => baiblog.id != id);
     setBlog(newListBlog);
@@ -60,5 +70,6 @@ export function useBlogLogic() {
     handleAddBlog,
     handleEditBlog,
     handleDeleteBlog,
+    reset,
   };
 }
