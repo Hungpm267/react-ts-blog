@@ -3,6 +3,9 @@ import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
 import { AllBlog } from "./pages/AllBlogs";
 import { ReadBlog } from "./pages/ReadBlog";
+import { DashBoard } from "./pages/DashBoard";
+import { Cart } from "./pages/Cart";
+import { CheckoutForm } from "./pages/CheckoutForm";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -38,7 +41,7 @@ function App() {
           <Toaster position="top-center" />
 
           {/* --- PHẦN XÁC THỰC --- */}
-          <div className="w-full max-w-4xl p-4 bg-gray-100 rounded-md mb-8">
+          <div className="w-full p-4 border-2 rounded-md mb-8">
             <h1 className="text-xl">
               Chào mừng, <strong>{user.username}</strong>!
             </h1>
@@ -66,6 +69,24 @@ function App() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link to="/dashboard">Dashboard</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link to="/cart">Cart</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link to="/CheckoutForm">CheckoutForm</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              <NavigationMenuItem>
                 <ModeToggle />
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -74,6 +95,9 @@ function App() {
           <Routes>
             <Route path="/" element={<AllBlog />} />
             <Route path="/blog/:blogId" element={<ReadBlog />} />
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/CheckoutForm" element={<CheckoutForm />} />
           </Routes>
         </ThemeProvider>
       </div>

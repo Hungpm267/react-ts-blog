@@ -31,7 +31,7 @@ export const loginApi = (
       const fakeToken = `fake-jwt-token-${Date.now()}`;
 
       resolve({ user: fakeUser, token: fakeToken });
-    }, 3000);
+    }, 500);
   });
 };
 
@@ -44,6 +44,6 @@ export const logoutApi = (): Promise<void> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
-    }, 10000);
+    }, 500);
   });
 };

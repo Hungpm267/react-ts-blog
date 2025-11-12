@@ -170,7 +170,7 @@ export function AllBlog() {
                             {...register("description", { required: true })}
                           />
                           <p>
-                            {errors.title && (
+                            {errors.description && (
                               <p className="text-red-500">
                                 Description is must have
                               </p>
@@ -209,11 +209,12 @@ export function AllBlog() {
               </CardAction>
             </CardHeader>
             <CardContent>
-              <CardTitle className="flex justify-start text-2xl font-bold">
+              <CardTitle className="text-left text-2xl font-bold">
                 {baidang.title}
               </CardTitle>
-              <p className="flex justify-start">{baidang.description}</p>
+              <p className="text-left text-zinc-500">{baidang.description}</p>
             </CardContent>
+
             <CardFooter className="flex flex-row justify-between ">
               <Button variant="outline" asChild>
                 <Link to={`/blog/${baidang.id}`}>View</Link>
